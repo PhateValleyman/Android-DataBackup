@@ -16,6 +16,20 @@ android {
     buildFeatures {
         aidl = true
     }
+
+    defaultConfig {
+        externalNativeBuild {
+            cmake {
+                cppFlags("")
+            }
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
 }
 
 dependencies {
