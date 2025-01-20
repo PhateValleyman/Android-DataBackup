@@ -24,8 +24,8 @@ PCRE_BRANCH=android14-mainline-adbd-release                      # https://andro
 ##################################################
 # Functions
 set_up_utils() {
-    sudo apt-get update
-    sudo apt-get install wget zip unzip bzip2 make meson cmake bison strip-nondeterminism xz-utils -y
+    apt-get update
+    apt-get install wget zip unzip bzip2 make meson cmake bison strip-nondeterminism xz-utils -y
     # Create build directory
     mkdir build_bin
     cd build_bin
