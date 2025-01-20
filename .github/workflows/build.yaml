@@ -10,7 +10,7 @@ on:
         Premium:
           description: 'Premium'
           required: true
-          default: 'false'
+          default: 'true'
         Foss:
           description: 'Foss'
           required: true
@@ -36,11 +36,11 @@ jobs:
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 21
 
       - name: Setup gradle
         uses: gradle/gradle-build-action@v2
@@ -70,13 +70,13 @@ jobs:
         run: |
           TASKS=""
           if [ ${BUILD_ALPHA} = 'true' ]; then
-            TASKS="$TASKS assembleArm64-v8aAlphaRelease assembleArmeabi-v7aAlphaRelease assembleX86AlphaRelease assembleX86_64AlphaRelease"
+            TASKS="$TASKS assembleArm64-v8aAlphaRelease assembleArmeabi-v7aAlphaRelease"
           fi
           if [ ${BUILD_PREMIUM} = 'true' ]; then
-            TASKS="$TASKS assembleArm64-v8aPremiumRelease assembleArmeabi-v7aPremiumRelease assembleX86PremiumRelease assembleX86_64PremiumRelease"
+            TASKS="$TASKS assembleArm64-v8aPremiumRelease assembleArmeabi-v7aPremiumRelease"
           fi
           if [ ${BUILD_FOSS} = 'true' ]; then
-            TASKS="$TASKS assembleArm64-v8aFossRelease assembleArmeabi-v7aFossRelease assembleX86FossRelease assembleX86_64FossRelease"
+            TASKS="$TASKS assembleArm64-v8aFossRelease assembleArmeabi-v7aFossRelease"
           fi
           if [ -z ${TASKS} ]; then
             TASKS="assembleRelease"
