@@ -4,14 +4,14 @@
 
 # Config
 # $type: built-in, all
-# $abis: all or abis(armeabi-v7a, arm64-v8a, x86, x86_64) split by `,`
+# $abis: all or abis(armeabi-v7a, arm64-v8a) split by `,`
 # `bash build_bin.sh $type $abis`
 # e.g. `bash build_bin.sh built-in x86,x86_64`
 
 # Whether use dev branch instead of release
 ZSTD_DEV=false
 
-NDK_VERSION=r25c
+NDK_VERSION=r27c
 
 BIN_VERSION=2.1
 ZLIB_VERSION=1.3.1                                               # https://github.com/madler/zlib/releases
@@ -45,13 +45,6 @@ set_up_environment() {
     arm64-v8a)
         export TARGET=aarch64-linux-android
         ;;
-    x86)
-        export TARGET=i686-linux-android
-        export DISABLE_YEAR2038_PARA=--disable-year2038
-        ;;
-    x86_64)
-        export TARGET=x86_64-linux-android
-        ;;
     esac
 
     # NDK
@@ -70,7 +63,7 @@ set_up_environment() {
     export PATH=$NDK:$PATH
     export TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
     export SYSROOT=$TOOLCHAIN/sysroot
-    export API=28
+    export API=33
     export AR=$TOOLCHAIN/bin/llvm-ar
     export CC=$TOOLCHAIN/bin/$TARGET$API-clang
     export AS=$CC
@@ -108,7 +101,7 @@ build_zlib() {
         CFLAGS="$BUILD_CFLAGS" \
         CXXFLAGS="$BUILD_CFLAGS" \
         -j8
-    make install -j8
+    make install -j8 V=2
     cd ..
     rm -rf zlib-$ZLIB_VERSION
 }
@@ -292,7 +285,7 @@ ROOT_PATH=$(dirname $(readlink -f "$0"))
 set_up_utils
 
 if [[ $2 == all ]]; then
-    abis=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
+    abis=("armeabi-v7a" "arm64-v8a")
 else
     PRESERVED_IFS="$IFS"
     IFS=","
